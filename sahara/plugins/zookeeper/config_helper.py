@@ -1,3 +1,5 @@
+# Copyright (c) 2017 EasyStack Inc.
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -11,17 +13,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# File contains plugins opts to avoid cyclic imports issue
 
-from oslo_config import cfg
+def get_plugin_configs():
+    return {}
 
-opts = [
-    cfg.ListOpt('plugins',
-                default=['vanilla', 'spark', 'cdh', 'ambari', 'storm', 'mapr',
-                         'zookeeper', 'hbase'],
-                help='List of plugins to be loaded. Sahara preserves the '
-                     'order of the list when returning it.'),
-]
 
-CONF = cfg.CONF
-CONF.register_opts(opts)
+def generate_configs(instances):
+    conf = ["tickTime=2000",
+            "dataDir=/var/zookeeper",
+            "clientPort=2181",
+            "initLimit=5",
+            "syncLimit=2"]
+    for index, instance in enumerate(instances):
+        conf.append('server.%s=%s:2888:3888' %
+                    (str(index), instance.instance_name))
+
+    return '\n'.join(conf)
