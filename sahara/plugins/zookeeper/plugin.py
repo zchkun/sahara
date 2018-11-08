@@ -18,7 +18,6 @@ from oslo_log import log as logging
 
 from sahara import context
 from sahara.i18n import _
-from sahara.i18n import _LI
 from sahara.plugins import exceptions as ex
 from sahara.plugins import provisioning as p
 from sahara.plugins import utils
@@ -83,7 +82,7 @@ class ZookeeperProvider(p.ProvisioningPluginBase):
         self._push_configs_to_nodes(cluster, instances, zk_conf)
         # restart zookeeper
         self._handle_zookeeper_processes(instances, 'restart')
-        LOG.info(_LI("Zookeeper service has been restarted"))
+        LOG.info("Zookeeper service has been restarted")
 
     def decommission_nodes(self, cluster, to_be_deleted):
         decommission = False
@@ -154,4 +153,4 @@ class ZookeeperProvider(p.ProvisioningPluginBase):
         self._push_configs_to_nodes(cluster, instances, zk_conf)
         # restart zookeeper
         self._handle_zookeeper_processes(instances, 'restart')
-        LOG.info(_LI("Zookeeper service has been restarted"))
+        LOG.info("Zookeeper service has been restarted")
